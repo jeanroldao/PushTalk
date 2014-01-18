@@ -38,7 +38,7 @@ $(function($){
 	msg("oi");
 	
 	var now = new Date().getTime();
-    var _10_seconds_from_now = new Date(now + 10*1000);
+    var _20_seconds_from_now = new Date(now + 20*1000);
 
 	
 	$('#btOffNotification').click(function(){
@@ -47,7 +47,7 @@ $(function($){
 			title:      'Reminder',
 			message:    'Dont forget to buy some flowers.',
 			//repeat:     'weekly',
-			date:       _10_seconds_from_now,
+			date:       _20_seconds_from_now,
 			foreground: 'foreground',
 			background: 'background'
 		});
