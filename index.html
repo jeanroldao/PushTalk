@@ -3,15 +3,50 @@
 <title>PushTalk</title>
 <script type="text/javascript" src="phonegap.js"></script>
 <script type="text/javascript" src="PushNotification.js"></script>
+<script type="text/javascript" src="js/plugins/LaunchMyApp.js"></script>
 <script type="text/javascript"  src="jquery.js"></script>
 <script>
 var SERVER = 'http://jeanfarias.webcindario.com/pushtalk/';
 function msg(s) {
-	document.getElementById('txtMessage').innerHTML = s + '<br />';
+	
+	$(function() {
+		document.getElementById('txtMessage').innerHTML += s + '<br />';
+	});
+}
+
+function handleOpenURL(url) {
+  $(function() {
+    msg("received url: " + url);
+  });
+}
+
+function foreground (id) {
+	msg('I WAS RUNNING ID='+id)
+}
+
+function background (id) {
+	msg('I WAS IN THE BACKGROUND ID='+id)
 }
 
 $(function($){
 	msg("oi");
+	
+	var now = new Date().getTime();
+    var _10_seconds_from_now = new Date(now + 10*1000);
+
+	
+	$('#btOffNotification').click(function(){
+		window.plugin.notification.local.add({
+			id:         1, // is converted to a string
+			title:      'Reminder',
+			message:    'Dont forget to buy some flowers.',
+			//repeat:     'weekly',
+			date:       _10_seconds_from_now,
+			foreground: 'foreground',
+			background: 'background'
+		});
+		msg("new reminder");
+	});
 	
 	$('#btCount').click(function(){
 		msg("loading...");
@@ -32,6 +67,7 @@ $(function($){
 <h1>PushTalk</h1>
 <h2>Phonegap push chat</h2>
 <input type="button" value="test count" id="btCount" />
+<input type="button" value="offline notification" id="btOffNotification" />
 <div id="txtMessage" />
 </body>
 </html>
