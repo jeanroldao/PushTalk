@@ -22,6 +22,7 @@
 
 	<gap:plugin name="org.apache.cordova.device" />
 	<gap:plugin name="org.apache.cordova.dialogs" />
+	
 	<gap:plugin name="com.phonegap.plugins.pushplugin" />
 	<gap:plugin name="de.appplant.cordova.plugin.local-notification" />
 	
