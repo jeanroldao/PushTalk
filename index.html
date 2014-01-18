@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>PushTalk</title>
+<script src="jquery.js"></script>
+<script>
+var SERVER = 'http://jeanfarias.webcindario.com/pushtalk/';
+function msg(s) {
+	document.getElementById('txtMessage').innerHTML = s + '<br />';
+}
+
+$(function($){
+	msg("oi");
+	
+	$('#btCount').click(function(){
+		msg("loading...");
+		var bt = this;
+		bt.disabled = true;
+		$.getJSON(SERVER + '?callback=?', function(data) {
+			msg("count: " + data.cont);
+			bt.disabled = false;
+		}).error(function(e){
+			msg("erro: " + e);
+			bt.disabled = false;
+		});
+	});
+});
+</script>
+</head>
+<body>
+<h1>PushTalk</h1>
+<h2>Phonegap push chat</h2>
+<input type="button" value="test count" id="btCount" />
+<div id="txtMessage" />
+</body>
+</html>
