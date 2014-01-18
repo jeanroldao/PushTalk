@@ -28,6 +28,12 @@ function background (id) {
 	msg('I WAS IN THE BACKGROUND ID='+id)
 }
 
+document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady() {
+    console.log(device.cordova);
+	msg("device.cordova ready");
+}
+
 $(function($){
 	msg("oi");
 	
@@ -66,6 +72,7 @@ $(function($){
 <body>
 <h1>PushTalk</h1>
 <h2>Phonegap push chat</h2>
+<div><a href="pushtalk://teste">pushtalk://teste</a></div>
 <input type="button" value="test count" id="btCount" />
 <input type="button" value="offline notification" id="btOffNotification" />
 <div id="txtMessage" />
