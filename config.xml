@@ -28,7 +28,7 @@
 	</gap:plugin>
 
 	<preference name="permissions" value="none"/>
-	<preference name="phonegap-version" value="2.9.0" />
+	<preference name="phonegap-version" value="3.0.0" />
 	<preference name="android-installLocation" value="auto" />
 
 	<access origin="*" />
