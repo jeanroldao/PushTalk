@@ -20,7 +20,7 @@
    
    <feature name="http://api.phonegap.com/1.0/device"/>
    
-   <gap:plugin name="com.adobe.plugins.pushplugin" />
+   <gap:plugin name="com.phonegap.plugins.pushplugin" />
    
    <preference name="permissions" value="none"/>
    <preference name="phonegap-version" value="2.9.0" />
