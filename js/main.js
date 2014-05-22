@@ -142,9 +142,9 @@ function montaGrid(lista) {
     //var th = document.createElement('th');
 	var prural = total_linhas == 1 ? '' : 's';
 	tr.innerHTML = '<th colspan="3">' + total_linhas + ' linha'+prural+' encontrada'+prural+'</th>';
-	table.appendChild(tr);
+	$('thead', table).append(tr);
 	//criaLinha(table, ['', '', total_linhas + ' linhas encontradas']);
-    criaLinha(table, ['<b>Hora</b>', '<b>Linha</b>', '<b>Descri&ccedil;&atilde;o</b>']);
+    criaLinha(table, ['Hora', 'Linha', 'Descri&ccedil;&atilde;o'], 'thead');
     for (var i = 0; i < total_linhas; i++) {
       var linha = lista[i];
       criaLinha(table, [linha.hora, linha.linha, linha.descricao]);
@@ -158,16 +158,19 @@ function getTable() {
     table.parentNode.removeChild(table);
   }
   table = document.createElement('table');
-  table.className = 'table';
-  table.border = "1";
+  table.className = 'table table-bordered';
+  table.appendChild(document.createElement('thead'));
+  table.appendChild(document.createElement('tbody'));
+  //table.border = "1";
   $('#conteudo').append(table);
   return table;
 }
 
-function criaLinha(table, campos) {
+function criaLinha(table, campos, tablePart) {
+  tablePart = tablePart || 'tbody';
   var tr = document.createElement('tr');
   for (var i = 0; i < campos.length; i++) {
-    var td = document.createElement('td');
+    var td = document.createElement(tablePart == 'tbody' ? 'td' : 'th');
     if (typeof campos[i] != 'object') {
       td.innerHTML = campos[i];
     } else {
@@ -175,5 +178,5 @@ function criaLinha(table, campos) {
     }
     tr.appendChild(td);
   }
-  table.appendChild(tr);
+  $(tablePart, table).append(tr);
 }
