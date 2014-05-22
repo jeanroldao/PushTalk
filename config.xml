@@ -19,13 +19,11 @@
 	</gap:platforms>
 
 	<feature name="http://api.phonegap.com/1.0/device"/>
-
-	<gap:plugin name="org.apache.cordova.device" />
-	<gap:plugin name="org.apache.cordova.dialogs" />
 	
 	<preference name="permissions" value="none"/>
 	<preference name="phonegap-version" value="3.3.0" />
 	<preference name="android-installLocation" value="auto" />
+	<preference name="android-targetSdkVersion" value="19" /> <!-- Android 4.4 -->
 
 	<access origin="*" />
  </widget>
