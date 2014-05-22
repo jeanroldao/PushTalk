@@ -2,57 +2,22 @@
 <head>
 <title>PushTalk</title>
 <script type="text/javascript" src="phonegap.js"></script>
-<script type="text/javascript" src="PushNotification.js"></script>
-<script type="text/javascript" src="js/plugins/LaunchMyApp.js"></script>
 <script type="text/javascript"  src="jquery.js"></script>
 <script>
 var SERVER = 'http://jeanfarias.webcindario.com/pushtalk/';
 function msg(s) {
-	
-	$(function() {
-		document.getElementById('txtMessage').innerHTML += s + '<br />';
-	});
+	document.getElementById('txtMessage').innerHTML += s + '<br />';
 }
 
-function handleOpenURL(url) {
-  $(function() {
-    msg("received url: " + url);
-  });
-}
-
-function foreground (id) {
-	msg('I WAS RUNNING ID='+id)
-}
-
-function background (id) {
-	msg('I WAS IN THE BACKGROUND ID='+id)
-}
 
 document.addEventListener("deviceready", onDeviceReady, false);
 function onDeviceReady() {
-    console.log(device.cordova);
+    //console.log(device.cordova);
 	msg("device.cordova ready");
 }
 
 $(function($){
 	msg("oi");
-	
-	var now = new Date().getTime();
-    var _20_seconds_from_now = new Date(now + 20*1000);
-
-	
-	$('#btOffNotification').click(function(){
-		window.plugin.notification.local.add({
-			id:         1, // is converted to a string
-			title:      'Reminder',
-			message:    'Dont forget to buy some flowers.',
-			//repeat:     'weekly',
-			date:       _20_seconds_from_now,
-			foreground: 'foreground',
-			background: 'background'
-		});
-		msg("new reminder");
-	});
 	
 	$('#btCount').click(function(){
 		msg("loading...");
@@ -72,7 +37,6 @@ $(function($){
 <body>
 <h1>PushTalk</h1>
 <h2>Phonegap push chat</h2>
-<div><a href="pushtalk://teste">pushtalk://teste</a></div>
 <input type="button" value="test count" id="btCount" />
 <input type="button" value="offline notification" id="btOffNotification" />
 <div id="txtMessage" />
