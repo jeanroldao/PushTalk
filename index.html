@@ -32,40 +32,56 @@
 	<br />
 <form role="form">
   <div class="form-group">
-    <label for="exampleInputEmail1">Hora inicial</label>
-    <input type="time" class="form-control" id="horaInicial" placeholder="Hora inicial">
+    <label for="txtPesquisar">Pesquisar</label>
+    <input type="text" class="form-control" id="txtPesquisar" placeholder="Pesquisar">
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">Hora final</label>
-    <input type="time" class="form-control" id="horaFinal" placeholder="Hora final">
-  </div>
-  <div class="radio-inline">
-    <label>
-	  <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-	  ALV-POA
-    </label>
-  </div>
-  <div class="radio-inline">
-    <label>
-	  <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-	  POA-ALV
-    </label>
+    <label for="txtHoraInicial">Hora inicial</label>
+    <input type="time" class="form-control" id="txtHoraInicial" placeholder="Hora inicial">
   </div>
   <div class="form-group">
-    <select class="form-control">
+    <label for="txtHoraFinal">Hora final</label>
+    <input type="time" class="form-control" id="txtHoraFinal" placeholder="Hora final">
+  </div>
+  <div class="form-group">
+    <label for="selectDia">Dia</label>
+	<select id="selectDia" class="form-control">
       <option>DIA &Uacute;TIL</option>
       <option>SABADO</option>
       <option>DOMINGO</option>
     </select>
   </div>
+  <div>
+	<label>Sentido</label>
+  </div>
+  <div class="radio-inline">
+    <label>
+	  <input type="radio" class="optSentido" name="optSentido" id="optSentido1" value="ALV-POA" checked>
+	  ALV-POA
+    </label>
+  </div>
+  <div class="radio-inline">
+    <label>
+	  <input type="radio" class="optSentido" name="optSentido" id="optSentido2" value="POA-ALV">
+	  POA-ALV
+    </label>
+  </div>
   <div class="form-group">
-    <button type="submit" class="btn btn-default">Pesquisar</button>
+    <label for="selectLinhas">Linhas</label>
+	<select id="selectLinhas" class="form-control" multiple="multiple">
+    </select>
+  </div>
+  <div class="form-group">
+    <input type="button" id="btnPesquisar" class="btn btn-default" value="Pesquisar" />
+  </div>
+  <div id="conteudo">
   </div>
 </form>
       
     </div> <!-- /container -->        
 	<script src="js/vendor/jquery-1.11.0.min.js"></script>
 	<script src="js/vendor/bootstrap.min.js"></script>
+	<script src="dados-2014-05-15.js"></script>
 	<script src="js/main.js"></script>
     </body>
 </html>
