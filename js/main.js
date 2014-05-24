@@ -87,7 +87,6 @@ $(function () {
     optionLinha.text = linha;
     selectLinhas.append(optionLinha);
   }
-  selectLinhas.height(selectDia.height());
   
   btnPesquisar.click(function() {
   
