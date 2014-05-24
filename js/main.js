@@ -68,6 +68,7 @@ $(function () {
   var optSentido = $('.optSentido');
   var selectLinhas = $('#selectLinhas');
   var btnPesquisar = $('#btnPesquisar');
+  var btnSelectLinhas = $('#btnSelectLinhas');
   
   var horaini = new Date();
   horaini.setHours(horaini.getHours()-1);
@@ -87,7 +88,10 @@ $(function () {
     optionLinha.text = linha;
     selectLinhas.append(optionLinha);
   }
-  selectLinhas.multiselect();
+  
+  btnSelectLinhas.click(function(){
+	selectLinhas.click();
+  });
   
   btnPesquisar.click(function() {
   

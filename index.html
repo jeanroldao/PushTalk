@@ -8,7 +8,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>	
         <style>
             body {
                 padding-top: 50px;
@@ -37,7 +36,8 @@
 <form role="form">
   <div class="form-group control-group">
     <label for="selectLinhas">Linhas</label>
-	<select id="selectLinhas" class="form-control" multiple="multiple" size="1"></select>
+	<select id="selectLinhas" class="form-control" multiple="multiple" size="1" style="display: none;"></select>
+	<input type="button" id="btnSelectLinhas" class="btn btn-default" value="Todas" style="display: block; width: 100%; text-align: left;"/>
   </div>
   <div class="row">
     <div class="col-xs-6">
@@ -84,7 +84,6 @@
     </div> <!-- /container -->        
 	<script src="js/vendor/jquery-1.11.0.min.js"></script>
 	<script src="js/vendor/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
 	<script src="dados-2014-05-15.js"></script>
 	<script src="js/main.js"></script>
     </body>
