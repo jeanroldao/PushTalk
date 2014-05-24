@@ -87,7 +87,6 @@ $(function () {
     optionLinha.text = linha;
     selectLinhas.append(optionLinha);
   }
-  selectLinhas.attr('multiple', 'multiple');
   
   btnPesquisar.click(function() {
   
