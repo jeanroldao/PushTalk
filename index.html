@@ -8,11 +8,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>	
         <style>
             body {
                 padding-top: 50px;
                 padding-bottom: 20px;
             }
+			select[multiple] {
+				height: inherit;
+			}
         </style>
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="css/main.css">
@@ -31,9 +35,9 @@
     <div class="container">
 	<br />
 <form role="form">
-  <div class="form-group">
+  <div class="form-group control-group">
     <label for="selectLinhas">Linhas</label>
-	<select id="selectLinhas" class="form-control" multiple="multiple"></select>
+	<select id="selectLinhas" class="form-control" multiple="multiple" size="1"></select>
   </div>
   <div class="row">
     <div class="col-xs-6">
@@ -80,6 +84,7 @@
     </div> <!-- /container -->        
 	<script src="js/vendor/jquery-1.11.0.min.js"></script>
 	<script src="js/vendor/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
 	<script src="dados-2014-05-15.js"></script>
 	<script src="js/main.js"></script>
     </body>
