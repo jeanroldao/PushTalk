@@ -89,7 +89,7 @@ $(function () {
   }
   
   btnPesquisar.click(function() {
-  
+	btnPesquisar.val('Pesquisando...');
     var selecao = selectLinhas.val() || [];
 	
     var resultado = [];
@@ -125,6 +125,7 @@ $(function () {
 		}));
 	}
     //console.log(resultado);
+	btnPesquisar.val('Pesquisar');
     montaGrid(resultado);
   });
   
