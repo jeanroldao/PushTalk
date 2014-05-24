@@ -161,7 +161,7 @@ function getTable() {
   table.className = 'table table-bordered';
   table.appendChild(document.createElement('thead'));
   table.appendChild(document.createElement('tbody'));
-  //table.border = "1";
+  
   $('#conteudo').append(table);
   return table;
 }

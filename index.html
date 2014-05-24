@@ -32,8 +32,8 @@
 	<br />
 <form role="form">
   <div class="form-group">
-    <label for="txtPesquisar">Pesquisar</label>
-    <input type="text" class="form-control" id="txtPesquisar" placeholder="Pesquisar">
+    <label for="selectLinhas">Linhas</label>
+	<select id="selectLinhas" class="form-control select" multiple="multiple" size="1"></select>
   </div>
   <div class="row">
     <div class="col-xs-6">
@@ -56,22 +56,19 @@
   <div>
 	<label>Sentido</label>
   </div>
-  <div class="radio-inline">
-    <label>
+  <div class="btn-group" data-toggle="buttons">
+	<label class="btn btn-default active">
 	  <input type="radio" class="optSentido" name="optSentido" id="optSentido1" value="ALV-POA" checked>
 	  ALV-POA
     </label>
-  </div>
-  <div class="radio-inline">
-    <label>
+    <label class="btn btn-default">
 	  <input type="radio" class="optSentido" name="optSentido" id="optSentido2" value="POA-ALV">
 	  POA-ALV
     </label>
   </div>
   <div class="form-group">
-    <label for="selectLinhas">Linhas</label>
-	<select id="selectLinhas" class="form-control" multiple="multiple">
-    </select>
+    <label for="txtPesquisar">Pesquisar por texto</label>
+    <input type="text" class="form-control" id="txtPesquisar" placeholder="Pesquisar por texto">
   </div>
   <div class="form-group">
     <input type="button" id="btnPesquisar" class="btn btn-default" value="Pesquisar" />
