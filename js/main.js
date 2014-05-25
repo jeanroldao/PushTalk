@@ -60,6 +60,12 @@ function formatTime(time) {
 	return horas + ":" + minutos;
 }
 
+function getAndroidVersion() {
+    var ua = navigator.userAgent; 
+    var match = ua.match(/Android\s([0-9\.]*)/);
+    return match ? match[1] : false;
+};
+
 $(function () {
   var txtPesquisar = $('#txtPesquisar');
   var txtHoraInicial = $('#txtHoraInicial');
@@ -68,6 +74,7 @@ $(function () {
   var optSentido = $('.optSentido');
   var selectLinhas = $('#selectLinhas');
   var btnPesquisar = $('#btnPesquisar');
+  var spanLinhasSelecionadas = $('#spanLinhasSelecionadas')[0];
   
   var horaini = new Date();
   horaini.setHours(horaini.getHours()-1);
@@ -85,48 +92,58 @@ $(function () {
     var optionLinha = document.createElement('option');
     optionLinha.value = linha;
     optionLinha.text = linha;
+	
+	//optionLinha.style.display = 'none';
     selectLinhas.append(optionLinha);
+  }
+  
+  var android = getAndroidVersion();
+  if (android && android < '4') {
+	selectLinhas.height(selectDia.height());
   }
   
   btnPesquisar.click(function() {
 	btnPesquisar.val('Pesquisando...');
-    var selecao = selectLinhas.val() || [];
+	setTimeout(function(){
 	
-    var resultado = [];
-	var sentido = $('.optSentido:checked').val();
-	if (txtHoraInicial.val() < txtHoraFinal.val()) {
-		resultado = busca(function(item){
-      
-		  return (item.descricao.toLowerCase().indexOf(txtPesquisar.val().toLowerCase()) != -1)
-			  && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
-			  && item.dia == selectDia.val()
-			  && item.sentido == sentido
-			  && item.hora >= txtHoraInicial.val()
-			  && item.hora <= txtHoraFinal.val();
-		});
-	} else {
-		resultado = busca(function(item){
-      
-		  return (item.descricao.toLowerCase().indexOf(txtPesquisar.val().toLowerCase()) != -1)
-			  && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
-			  && item.dia == selectDia.val()
-			  && item.sentido == sentido
-			  && item.hora >= txtHoraInicial.val();
-		});
+		var selecao = selectLinhas.val() || [];
 		
-		resultado = resultado.concat(busca(function(item){
-      
-		  return (item.descricao.toLowerCase().indexOf(txtPesquisar.val().toLowerCase()) != -1)
-			  && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
-			  && item.dia == selectDia.val()
-			  && item.sentido == sentido
-			  && item.hora <= txtHoraFinal.val()
-			  && item.hora <= txtHoraFinal.val();
-		}));
-	}
-    //console.log(resultado);
-	btnPesquisar.val('Pesquisar');
-    montaGrid(resultado);
+		var resultado = [];
+		var sentido = $('.optSentido:checked').val();
+		if (txtHoraInicial.val() < txtHoraFinal.val()) {
+			resultado = busca(function(item){
+		  
+			  return (item.descricao.toLowerCase().indexOf(txtPesquisar.val().toLowerCase()) != -1)
+				  && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
+				  && item.dia == selectDia.val()
+				  && item.sentido == sentido
+				  && item.hora >= txtHoraInicial.val()
+				  && item.hora <= txtHoraFinal.val();
+			});
+		} else {
+			resultado = busca(function(item){
+		  
+			  return (item.descricao.toLowerCase().indexOf(txtPesquisar.val().toLowerCase()) != -1)
+				  && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
+				  && item.dia == selectDia.val()
+				  && item.sentido == sentido
+				  && item.hora >= txtHoraInicial.val();
+			});
+			
+			resultado = resultado.concat(busca(function(item){
+		  
+			  return (item.descricao.toLowerCase().indexOf(txtPesquisar.val().toLowerCase()) != -1)
+				  && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
+				  && item.dia == selectDia.val()
+				  && item.sentido == sentido
+				  && item.hora <= txtHoraFinal.val()
+				  && item.hora <= txtHoraFinal.val();
+			}));
+		}
+		//console.log(resultado);
+		btnPesquisar.val('Pesquisar');
+		montaGrid(resultado);
+	}, 100);
   });
   
 });
