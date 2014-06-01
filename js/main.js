@@ -97,15 +97,15 @@ $(function () {
     selectLinhas.append(optionLinha);
   }
   
+  if (!selectLinhas.attr('multiple')) {
+	selectLinhas.attr('multiple', true);
+  }
+  
   //var android = getAndroidVersion();
   //if (android && android < '4') {
   var selectLinhasMaxHeight = selectDia.height() * 3;
   if (selectLinhas.height() > selectLinhasMaxHeight) {
 	selectLinhas.height(selectLinhasMaxHeight);
-  }
-  
-  if (!selectLinhas.attr('multiple')) {
-	selectLinhas.attr('multiple', true);
   }
   
   btnPesquisar.click(function() {
