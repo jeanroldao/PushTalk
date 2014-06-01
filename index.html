@@ -2,7 +2,7 @@
 <head>
 <title>PushTalk</title>
 <script type="text/javascript" src="phonegap.js"></script>
-<script type="text/javascript"  src="jquery.js"></script>
+<script type="text/javascript"  src="js/vendor/jquery-1.11.0.min.js"></script>
 <script>
 var SERVER = 'http://jeanfarias.webcindario.com/pushtalk/';
 var next_id = 1;
@@ -22,7 +22,7 @@ function onDeviceReady() {
 	msg("device.cordova ready");
 	
 	window.plugin.notification.local.onclick = function (id, state, json) {
-		msg('message('id + '): ' + json.msg);
+		msg('message(' + id + '): ' + json.msg);
 	};
 	
 	window.plugin.notification.local.getScheduledIds( function (scheduledIds) {
