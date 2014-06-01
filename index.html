@@ -22,7 +22,7 @@ function onDeviceReady() {
 	msg("device.cordova ready");
 	
 	window.plugin.notification.local.onclick = function (id, state, json) {
-		msg('message(' + id + '): ' + json.msg);
+		msg('message(' + id + '): ' + json);
 	};
 	
 	window.plugin.notification.local.getScheduledIds( function (scheduledIds) {
@@ -36,12 +36,14 @@ $(function($){
 	$('#btOffNotification_now').click(function(){
 		var id = getNextId();
 		
+		msg('now: ' + id);
+		
 		window.plugin.notification.local.add({
 			id:      id,
 			title:   'Reminder for now #' + id,
 			message: 'Now!!!! ('+id+')',
 			autoCancel: true,
-			json: {msg: 'Now!!!! ('+id+')'}
+			json: 'Now!!!! ('+id+')'
 		});		
 	});
 
@@ -51,14 +53,14 @@ $(function($){
 		var next_time = new Date(now + 10*1000);// 10 segundos
 
 		var id = getNextId();
-		
+		msg('soon: ' + id);
 		window.plugin.notification.local.add({
 			id:      id,
 			title:   'Reminder for soon #' + id,
 			message: 'Dont forget to buy some flowers. ('+id+')',
 			autoCancel: true,
 			date:    next_time,
-			json: {msg: 'Dont forget to buy some flowers. ('+id+')'}
+			json: 'Dont forget to buy some flowers. ('+id+')'
 		});		
 	});
 	
