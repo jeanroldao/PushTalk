@@ -76,15 +76,28 @@ $(function($){
 			bt.disabled = false;
 		});
 	});
+	
+	$('#btAlert').click(function(){
+		navigator.notification.alert(
+			'You are the winner!',  // message
+			function() {
+				msg("alert ok")
+			},         // callback
+			'Game Over',            // title
+			'Done'                  // buttonName
+		);		
+	});
 });
 </script>
 </head>
 <body>
 <h1>PushTalk</h1>
 <h2>Phonegap push chat</h2>
+<div><a href="http://www.google.com.br/" target="_system">http://www.google.com.br/</a></div>
 <input type="button" value="test count" id="btCount" />
 <input type="button" value="offline notification now" id="btOffNotification_now" />
 <input type="button" value="offline notification soon" id="btOffNotification_soon" />
+<input type="button" value="alert test" id="btAlert" />
 <div id="txtMessage" />
 </body>
 </html>
