@@ -97,9 +97,15 @@ $(function () {
     selectLinhas.append(optionLinha);
   }
   
-  var android = getAndroidVersion();
-  if (android && android < '4') {
-	selectLinhas.height(selectDia.height());
+  //var android = getAndroidVersion();
+  //if (android && android < '4') {
+  var selectLinhasMaxHeight = selectDia.height() * 3;
+  if (selectLinhas.height() > selectLinhasMaxHeight) {
+	selectLinhas.height(selectLinhasMaxHeight);
+  }
+  
+  if (!selectLinhas.attr('multiple')) {
+	selectLinhas.attr('multiple', true);
   }
   
   btnPesquisar.click(function() {
@@ -136,7 +142,6 @@ $(function () {
 				  && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
 				  && item.dia == selectDia.val()
 				  && item.sentido == sentido
-				  && item.hora <= txtHoraFinal.val()
 				  && item.hora <= txtHoraFinal.val();
 			}));
 		}
