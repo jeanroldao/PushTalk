@@ -1,0 +1,103 @@
+<html>
+<head>
+<title>PushTalk</title>
+<script type="text/javascript" src="phonegap.js"></script>
+<script type="text/javascript"  src="js/vendor/jquery-1.11.0.min.js"></script>
+<script>
+var SERVER = 'http://jeanfarias.webcindario.com/pushtalk/';
+var next_id = 1;
+
+function getNextId() {
+	return next_id++;
+}
+
+function msg(s) {
+	document.getElementById('txtMessage').innerHTML += s + '<br />';
+}
+
+
+document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady() {
+    //console.log(device.cordova);
+	msg("device.cordova ready");
+	
+	window.plugin.notification.local.onclick = function (id, state, json) {
+		msg('message(' + id + '): ' + json);
+	};
+	
+	window.plugin.notification.local.getScheduledIds( function (scheduledIds) {
+		msg('Scheduled IDs: ' + scheduledIds.join(', '));
+	});
+}
+
+$(function($){
+	msg("oi");
+	
+	$('#btOffNotification_now').click(function(){
+		var id = getNextId();
+		
+		msg('now: ' + id);
+		
+		window.plugin.notification.local.add({
+			id:      id,
+			title:   'Reminder for now #' + id,
+			message: 'Now!!!! ('+id+')',
+			autoCancel: true,
+			json: 'Now!!!! ('+id+')'
+		});		
+	});
+
+	$('#btOffNotification_soon').click(function(){
+		var now = new Date().getTime();
+		
+		var next_time = new Date(now + 10*1000);// 10 segundos
+
+		var id = getNextId();
+		msg('soon: ' + id);
+		window.plugin.notification.local.add({
+			id:      id,
+			title:   'Reminder for soon #' + id,
+			message: 'Dont forget to buy some flowers. ('+id+')',
+			autoCancel: true,
+			date:    next_time,
+			json: 'Dont forget to buy some flowers. ('+id+')'
+		});		
+	});
+	
+	$('#btCount').click(function(){
+		msg("loading...");
+		var bt = this;
+		bt.disabled = true;
+		$.getJSON(SERVER + '?callback=?', function(data) {
+			msg("count: " + data.cont);
+			bt.disabled = false;
+		}).error(function(e){
+			msg("erro: " + e);
+			bt.disabled = false;
+		});
+	});
+	
+	$('#btAlert').click(function(){
+		navigator.notification.alert(
+			'You are the winner!',  // message
+			function() {
+				msg("alert ok")
+			},         // callback
+			'Game Over',            // title
+			'Done'                  // buttonName
+		);		
+	});
+});
+</script>
+</head>
+<body>
+<h1>PushTalk</h1>
+<h2>Phonegap push chat</h2>
+<div><a href="http://www.google.com.br/" target="_system">http://www.google.com.br/</a></div>
+<input type="button" value="test count" id="btCount" />
+<input type="button" value="offline notification now" id="btOffNotification_now" />
+<input type="button" value="offline notification soon" id="btOffNotification_soon" />
+<input type="button" value="alert test" id="btAlert" />
+<div id="txtMessage" />
+</body>
+</html>

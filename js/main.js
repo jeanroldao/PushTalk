@@ -1,25 +1,58 @@
+//autor: jeanroldao@gmail.com
 
-function statistics() {
+var linhasAgrupadas = null;
+function getLinhas() {
   //tabelaHorarios
-  var linhasCadastradas = {};
-  for (var i = 0; i < tabelaHorarios.length; i++ ) {
-    if (!linhasCadastradas[tabelaHorarios[i].linha]) {
-      linhasCadastradas[tabelaHorarios[i].linha] = 0;
-    }
-    linhasCadastradas[tabelaHorarios[i].linha]++;
+  if (linhasAgrupadas) {
+    return linhasAgrupadas;
   }
-  return linhasCadastradas;
+  
+  linhasAgrupadas = {};
+  
+  for (var i = 0; i < tabelaHorarios.length; i++ ) {
+    var linhaAtual = tabelaHorarios[i];
+    if (!linhasAgrupadas[linhaAtual.sentido]) {
+      linhasAgrupadas[linhaAtual.sentido] = {};
+    }
+    
+    if (!linhasAgrupadas[linhaAtual.sentido][linhaAtual.linha]) {
+      linhasAgrupadas[linhaAtual.sentido][linhaAtual.linha] = 0;
+    }
+    
+    linhasAgrupadas[linhaAtual.sentido][linhaAtual.linha]++;
+  }
+  
+  for (var sentido in linhasAgrupadas) {
+    var linhas = [];
+    for (var linha in linhasAgrupadas[sentido]) {
+      linhas.push(linha);
+    }
+    linhas.sort();
+    linhasAgrupadas[sentido] = linhas;
+  }
+  return linhasAgrupadas;
 }
 
-function getDias() {
-  var linhasCadastradas = {};
-  for (var i = 0; i < tabelaHorarios.length; i++ ) {
-    if (!linhasCadastradas[tabelaHorarios[i].dia]) {
-      linhasCadastradas[tabelaHorarios[i].dia] = 0;
-    }
-    linhasCadastradas[tabelaHorarios[i].dia]++;
+var sentidos = null;
+function getSentidos() {
+
+  if (sentidos) {
+    return sentidos;
   }
-  return linhasCadastradas;
+  
+  var sentidosCadastradas = {};
+  for (var i = 0; i < tabelaHorarios.length; i++ ) {
+    if (!sentidosCadastradas[tabelaHorarios[i].sentido]) {
+      sentidosCadastradas[tabelaHorarios[i].sentido] = 0;
+    }
+    sentidosCadastradas[tabelaHorarios[i].sentido]++;
+  }
+  
+  sentidos = [];
+  for (var sentido in sentidosCadastradas) {
+    sentidos.push(sentido);
+  }
+  return sentidos;
 }
 
 function busca(filtro) {
@@ -61,9 +94,9 @@ function formatTime(time) {
 }
 
 function getAndroidVersion() {
-    var ua = navigator.userAgent; 
-    var match = ua.match(/Android\s([0-9\.]*)/);
-    return match ? match[1] : false;
+  var ua = navigator.userAgent; 
+  var match = ua.match(/Android\s([0-9\.]*)/);
+  return match ? match[1] : false;
 };
 
 $(function () {
@@ -71,9 +104,10 @@ $(function () {
   var txtHoraInicial = $('#txtHoraInicial');
   var txtHoraFinal = $('#txtHoraFinal');
   var selectDia = $('#selectDia');
-  var optSentido = $('.optSentido');
+  var selectSentido = $('#selectSentido');
   var selectLinhas = $('#selectLinhas');
   var btnPesquisar = $('#btnPesquisar');
+  var btnVoltar = $('#btnVoltar');
   var spanLinhasSelecionadas = $('#spanLinhasSelecionadas')[0];
   
   var horaini = new Date();
@@ -84,18 +118,35 @@ $(function () {
   horafim.setHours(horafim.getHours() + 1);
   
   txtHoraFinal.val(formatTime(horafim));
-
-  var linhas = Object.keys(statistics()).sort();
   
-  for (var iLinha in linhas) {
-	var linha = linhas[iLinha];
-    var optionLinha = document.createElement('option');
-    optionLinha.value = linha;
-    optionLinha.text = linha;
+  $(getSentidos()).each(function(i, sentido){
 	
-	//optionLinha.style.display = 'none';
-    selectLinhas.append(optionLinha);
+    var optionSentido = document.createElement('option');
+    optionSentido.value = sentido;
+    optionSentido.text = sentido;
+    
+    selectSentido.append(optionSentido);
+  });
+  
+  var atualizaLinhas = function() {
+    var linhasAtual = selectLinhas.val();
+    selectLinhas.find('option').remove();
+    
+    var linhas = getLinhas()[selectSentido.val()];
+    $(linhas).each(function(i, linha){
+      var optionLinha = document.createElement('option');
+      optionLinha.value = linha;
+      optionLinha.text = linha;
+    
+      selectLinhas.append(optionLinha);
+    });
+    
+    selectLinhas.val(linhasAtual);
   }
+  
+  selectSentido.change(atualizaLinhas);
+  atualizaLinhas();
+  
   
   if (!selectLinhas.attr('multiple')) {
 	selectLinhas.attr('multiple', true);
@@ -103,54 +154,67 @@ $(function () {
   
   //var android = getAndroidVersion();
   //if (android && android < '4') {
-  var selectLinhasMaxHeight = selectDia.height() * 3;
+  var selectLinhasMaxHeight = selectDia.height() * 2;
   if (selectLinhas.height() > selectLinhasMaxHeight) {
-	selectLinhas.height(selectLinhasMaxHeight);
+    selectLinhas.height(selectLinhasMaxHeight);
   }
   
   btnPesquisar.click(function() {
-	btnPesquisar.val('Pesquisando...');
-	setTimeout(function(){
-	
-		var selecao = selectLinhas.val() || [];
-		
-		var resultado = [];
-		var sentido = $('.optSentido:checked').val();
-		if (txtHoraInicial.val() < txtHoraFinal.val()) {
-			resultado = busca(function(item){
-		  
-			  return (item.descricao.toLowerCase().indexOf(txtPesquisar.val().toLowerCase()) != -1)
-				  && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
-				  && item.dia == selectDia.val()
-				  && item.sentido == sentido
-				  && item.hora >= txtHoraInicial.val()
-				  && item.hora <= txtHoraFinal.val();
-			});
-		} else {
-			resultado = busca(function(item){
-		  
-			  return (item.descricao.toLowerCase().indexOf(txtPesquisar.val().toLowerCase()) != -1)
-				  && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
-				  && item.dia == selectDia.val()
-				  && item.sentido == sentido
-				  && item.hora >= txtHoraInicial.val();
-			});
-			
-			resultado = resultado.concat(busca(function(item){
-		  
-			  return (item.descricao.toLowerCase().indexOf(txtPesquisar.val().toLowerCase()) != -1)
-				  && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
-				  && item.dia == selectDia.val()
-				  && item.sentido == sentido
-				  && item.hora <= txtHoraFinal.val();
-			}));
-		}
-		//console.log(resultado);
-		btnPesquisar.val('Pesquisar');
-		montaGrid(resultado);
-	}, 100);
+    btnPesquisar.val('Pesquisando...');
+    setTimeout(function(){
+    
+      var selecao = selectLinhas.val() || [];
+      
+      var resultado = [];
+      var sentido = selectSentido.val();
+      if (txtHoraInicial.val() < txtHoraFinal.val()) {
+        resultado = busca(function(item){
+        
+          return (item.descricao.toLowerCase().indexOf(txtPesquisar.val().toLowerCase()) != -1)
+            && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
+            && item.dia == selectDia.val()
+            && item.sentido == sentido
+            && item.hora >= txtHoraInicial.val()
+            && item.hora <= txtHoraFinal.val();
+        });
+      } else {
+        resultado = busca(function(item){
+        
+          return (item.descricao.toLowerCase().indexOf(txtPesquisar.val().toLowerCase()) != -1)
+            && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
+            && item.dia == selectDia.val()
+            && item.sentido == sentido
+            && item.hora >= txtHoraInicial.val();
+        });
+        
+        resultado = resultado.concat(busca(function(item){
+        
+          return (item.descricao.toLowerCase().indexOf(txtPesquisar.val().toLowerCase()) != -1)
+            && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
+            && item.dia == selectDia.val()
+            && item.sentido == sentido
+            && item.hora <= txtHoraFinal.val();
+        }));
+      }
+      
+      btnPesquisar.val('Pesquisar');
+      btnPesquisar.blur();
+      montaGrid(resultado);
+      
+      //$('#conteudo_form,#conteudo_tabela').slideToggle();
+      $('body').scrollTop(0);
+      $('#conteudo_form').toggle();
+      $('#conteudo_tabela').toggle();
+      //$('body').animate({scrollTop:$('#btnPesquisar').position().top - 70}, 'slow');
+    }, 100);
   });
-  
+    
+  btnVoltar.click(function(){
+      $('body').scrollTop(0);
+      $('#conteudo_form').toggle();
+      $('#conteudo_tabela').toggle();
+  });
+  $.fx.interval = 10;
 });
 
 function montaGrid(lista) {
@@ -160,13 +224,13 @@ function montaGrid(lista) {
     criaLinha(table, ['<b>Sem linhas para essa pesquisa, mude o filtro para resultados diferentes</b>']);
   } else {
   
-	var total_linhas = lista.length;
+    var total_linhas = lista.length;
     var tr = document.createElement('tr');
     //var th = document.createElement('th');
-	var prural = total_linhas == 1 ? '' : 's';
-	tr.innerHTML = '<th colspan="3">' + total_linhas + ' linha'+prural+' encontrada'+prural+'</th>';
-	$('thead', table).append(tr);
-	//criaLinha(table, ['', '', total_linhas + ' linhas encontradas']);
+    var prural = total_linhas == 1 ? '' : 's';
+    tr.innerHTML = '<th colspan="3">' + total_linhas + ' linha'+prural+' encontrada'+prural+'</th>';
+    $('thead', table).append(tr);
+    //criaLinha(table, ['', '', total_linhas + ' linhas encontradas']);
     criaLinha(table, ['Hora', 'Linha', 'Descri&ccedil;&atilde;o'], 'thead');
     for (var i = 0; i < total_linhas; i++) {
       var linha = lista[i];
@@ -185,7 +249,7 @@ function getTable() {
   table.appendChild(document.createElement('thead'));
   table.appendChild(document.createElement('tbody'));
   
-  $('#conteudo').append(table);
+  $('#conteudo_tabela').append(table);
   return table;
 }
 

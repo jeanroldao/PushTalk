@@ -1,103 +1,92 @@
-<html>
-<head>
-<title>PushTalk</title>
-<script type="text/javascript" src="phonegap.js"></script>
-<script type="text/javascript"  src="js/vendor/jquery-1.11.0.min.js"></script>
-<script>
-var SERVER = 'http://jeanfarias.webcindario.com/pushtalk/';
-var next_id = 1;
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Hor&aacute;rios Soul</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-function getNextId() {
-	return next_id++;
-}
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="css/main.css">
 
-function msg(s) {
-	document.getElementById('txtMessage').innerHTML += s + '<br />';
-}
+        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    </head>
+    <body>
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar-inner">
+        <div class="container">
+          <div class="navbar-header">
+            <a class="brand"><img src="topo_soul.jpg" /></a>
+          </div>
+        </div>
+      </div>
+    </div>
 
+	<br />
+  <div class="navbar navbar-default hidden">
+    <div class="navbar-inner">
+      <div class="container">
+        <div class="navbar-header">
+          <label class="">Hor&aacute;rios Soul</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container">
 
-document.addEventListener("deviceready", onDeviceReady, false);
-function onDeviceReady() {
-    //console.log(device.cordova);
-	msg("device.cordova ready");
-	
-	window.plugin.notification.local.onclick = function (id, state, json) {
-		msg('message(' + id + '): ' + json);
-	};
-	
-	window.plugin.notification.local.getScheduledIds( function (scheduledIds) {
-		msg('Scheduled IDs: ' + scheduledIds.join(', '));
-	});
-}
-
-$(function($){
-	msg("oi");
-	
-	$('#btOffNotification_now').click(function(){
-		var id = getNextId();
-		
-		msg('now: ' + id);
-		
-		window.plugin.notification.local.add({
-			id:      id,
-			title:   'Reminder for now #' + id,
-			message: 'Now!!!! ('+id+')',
-			autoCancel: true,
-			json: 'Now!!!! ('+id+')'
-		});		
-	});
-
-	$('#btOffNotification_soon').click(function(){
-		var now = new Date().getTime();
-		
-		var next_time = new Date(now + 10*1000);// 10 segundos
-
-		var id = getNextId();
-		msg('soon: ' + id);
-		window.plugin.notification.local.add({
-			id:      id,
-			title:   'Reminder for soon #' + id,
-			message: 'Dont forget to buy some flowers. ('+id+')',
-			autoCancel: true,
-			date:    next_time,
-			json: 'Dont forget to buy some flowers. ('+id+')'
-		});		
-	});
-	
-	$('#btCount').click(function(){
-		msg("loading...");
-		var bt = this;
-		bt.disabled = true;
-		$.getJSON(SERVER + '?callback=?', function(data) {
-			msg("count: " + data.cont);
-			bt.disabled = false;
-		}).error(function(e){
-			msg("erro: " + e);
-			bt.disabled = false;
-		});
-	});
-	
-	$('#btAlert').click(function(){
-		navigator.notification.alert(
-			'You are the winner!',  // message
-			function() {
-				msg("alert ok")
-			},         // callback
-			'Game Over',            // title
-			'Done'                  // buttonName
-		);		
-	});
-});
-</script>
-</head>
-<body>
-<h1>PushTalk</h1>
-<h2>Phonegap push chat</h2>
-<div><a href="http://www.google.com.br/" target="_system">http://www.google.com.br/</a></div>
-<input type="button" value="test count" id="btCount" />
-<input type="button" value="offline notification now" id="btOffNotification_now" />
-<input type="button" value="offline notification soon" id="btOffNotification_soon" />
-<input type="button" value="alert test" id="btAlert" />
-<div id="txtMessage" />
-</body>
+	<form role="form">
+    <div id="conteudo_form">
+      <div>
+        <label>Sentido</label>
+        <select id="selectSentido" class="form-control" style="display: block;"></select>
+      </div>
+      <div class="form-group control-group">
+        <br />
+        <label for="selectLinhas">Linhas</label>
+        <select id="selectLinhas" class="form-control" style="display: block;"></select>
+      </div>
+      <div class="row">
+        <div class="col-xs-6">
+          <label for="txtHoraInicial">Hora inicial</label>
+          <input type="time" class="form-control" id="txtHoraInicial" placeholder="Hora inicial">
+        </div>
+        <div class="col-xs-6">
+          <label for="txtHoraFinal">Hora final</label>
+          <input type="time" class="form-control" id="txtHoraFinal" placeholder="Hora final">
+        </div>
+      </div>
+      <div class="form-group">
+        <br />
+        <label for="selectDia">Dia</label>
+        <select id="selectDia" class="form-control">
+          <option value="DIA &Uacute;TIL">DIA &Uacute;TIL</option>
+          <option value="SABADO">S&Aacute;BADO</option>
+          <option value="DOMINGO">DOMINGO E FERIADOS</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="txtPesquisar">Pesquisar por texto</label>
+        <input type="text" class="form-control" id="txtPesquisar" placeholder="Pesquisar por texto">
+      </div>
+      <div class="form-group">
+        <input type="button" id="btnPesquisar" class="btn btn-primary" value="Pesquisar" />
+      </div>
+    </div>
+	  <div id="conteudo_tabela" style="display: none; margin-top: 50px;">
+      <div class="form-group navbar navbar-fixed-top container" style="top: 70px;">
+        <input type="button" id="btnVoltar" class="btn btn-primary" value="Voltar" />
+      </div>
+	  </div>
+	</form>
+		  
+	</div> <!-- /container -->        
+	<script src="js/vendor/jquery-1.11.0.min.js"></script>
+	<script src="js/vendor/bootstrap.min.js"></script>
+	<script src="dados-2014-05-15.js"></script>
+	<script src="js/main.js"></script>
+    </body>
 </html>
