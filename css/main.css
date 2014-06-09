@@ -1,12 +1,38 @@
 body {
 	padding-top: 50px;
-	padding-bottom: 20px;
 }
 
 .barra_titulo {
-  margin-left: -10px;
-  margin-right: -10px;
+  margin-left: -16px;
+  margin-right: -16px;
+  margin-top: 12px;
   position: relative;
+}
+
+.barra_titulo .container {
+  background-color: #820D06;
+  width: 100%;
+  overflow: hidden;
+}
+
+.barra_titulo .navbar-header img {
+}
+
+.barra_titulo .brand {
+  position: relative;
+}
+.barra_titulo .titulo { 
+  position: absolute; 
+  top: 16px; 
+  left: 0; 
+  width: 100%; 
+  
+  text-align: left;
+  color: white; 
+  font-size: 32px; 
+  font-weight: lighter;
+  letter-spacing: -1px;  
+  padding: 10px; 
 }
 
 .brand {

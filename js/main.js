@@ -100,7 +100,9 @@ function getAndroidVersion() {
 };
 
 $(window).resize(function(){
-  $('.navbar-default .navbar-inner:first').width($('body').width());
+  if($('.navbar-default .navbar-inner').width() != $('body').width()) {
+    $('.navbar-default .navbar-inner').width($('body').width());
+  }
 });
 
 $(function () {
@@ -165,67 +167,119 @@ $(function () {
   }
   
   btnPesquisar.click(function() {
-    btnPesquisar.val('Pesquisando...');
-    setTimeout(function(){
-    
-      var selecao = selectLinhas.val() || [];
+    $('#conteudo_tabela').slideUp(function(){
+      $(table).remove();
+      table = null;
       
-      var resultado = [];
-      var sentido = selectSentido.val();
-      if (txtHoraInicial.val() < txtHoraFinal.val()) {
-        resultado = busca(function(item){
+      btnPesquisar.val('Pesquisando...');
+      setTimeout(function(){
+      
+        var selecao = selectLinhas.val() || [];
         
-          return (item.descricao.toLowerCase().indexOf(txtPesquisar.val().toLowerCase()) != -1)
-            && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
-            && item.dia == selectDia.val()
-            && item.sentido == sentido
-            && item.hora >= txtHoraInicial.val()
-            && item.hora <= txtHoraFinal.val();
+        var resultado = [];
+        var sentido = selectSentido.val();
+        if (txtHoraInicial.val() < txtHoraFinal.val()) {
+          resultado = busca(function(item){
+          
+            return (item.descricao.toLowerCase().indexOf(txtPesquisar.val().toLowerCase()) != -1)
+              && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
+              && item.dia == selectDia.val()
+              && item.sentido == sentido
+              && item.hora >= txtHoraInicial.val()
+              && item.hora <= txtHoraFinal.val();
+          });
+        } else {
+          resultado = busca(function(item){
+          
+            return (item.descricao.toLowerCase().indexOf(txtPesquisar.val().toLowerCase()) != -1)
+              && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
+              && item.dia == selectDia.val()
+              && item.sentido == sentido
+              && item.hora >= txtHoraInicial.val();
+          });
+          
+          resultado = resultado.concat(busca(function(item){
+          
+            return (item.descricao.toLowerCase().indexOf(txtPesquisar.val().toLowerCase()) != -1)
+              && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
+              && item.dia == selectDia.val()
+              && item.sentido == sentido
+              && item.hora <= txtHoraFinal.val();
+          }));
+        }
+        
+        btnPesquisar.val('Pesquisar');
+        btnPesquisar.blur();
+        montaGrid(resultado);
+        $('#conteudo_tabela').show();
+        
+        //$('#conteudo_form,#conteudo_tabela').slideToggle();
+        //$('#conteudo_form').css('visibility', 'hidden');
+        /*
+        $('#conteudo_form').fadeOut('slow', function() {
+
+          $('#conteudo_tabela').fadeIn();
+          document.body.scrollTop = 0
+          if (history.pushState) {
+            history.pushState({page:'search'});
+            console.log('history.pushState');
+          }
         });
-      } else {
-        resultado = busca(function(item){
-        
-          return (item.descricao.toLowerCase().indexOf(txtPesquisar.val().toLowerCase()) != -1)
-            && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
-            && item.dia == selectDia.val()
-            && item.sentido == sentido
-            && item.hora >= txtHoraInicial.val();
-        });
-        
-        resultado = resultado.concat(busca(function(item){
-        
-          return (item.descricao.toLowerCase().indexOf(txtPesquisar.val().toLowerCase()) != -1)
-            && (selecao.length == 0 || selecao.indexOf(item.linha) != -1)
-            && item.dia == selectDia.val()
-            && item.sentido == sentido
-            && item.hora <= txtHoraFinal.val();
-        }));
-      }
-      
-      btnPesquisar.val('Pesquisar');
-      btnPesquisar.blur();
-      montaGrid(resultado);
-      
-      //$('#conteudo_form,#conteudo_tabela').slideToggle();
-      $('body').scrollTop(0);
-      $('#conteudo_form').toggle();
-      $('#conteudo_tabela').toggle();
-      //$('body').animate({scrollTop:$('#btnPesquisar').position().top - 70}, 'slow');
-    }, 100);
+        */
+        $('body').animate({scrollTop:btnPesquisar.position().top - 75}, 'slow');
+      }, 100);
+    });
   });
-    
+  
+  /*
   var acaoVoltar = function(){
-      $('body').scrollTop(0);
-      $('#conteudo_form').toggle();
-      $('#conteudo_tabela').toggle();
+      //setTimeout(function(){
+      document.body.scrollTop = 0
+      $('#conteudo_tabela').fadeOut('slow', function(){
+        $('#conteudo_form').fadeIn();
+      });
+      //$('#conteudo_form').css('visibility', 'visible');
+      //}, 1);
   };
-  btnVoltar.click(acaoVoltar);
+  
+  if (history.pushState) {
+    history.replaceState({page:'home'});
+    window.onpopstate = function(event) {
+      //alert('window.onpopstate');
+      
+      // /*
+      document.addEventListener('scroll', function noScrollOnce(event) {
+        alert('noScrollOnce');
+        event.preventDefault();
+        document.removeEventListener('scroll', noScrollOnce);
+      });
+      //* /
+      
+      if (event.state) {
+        acaoVoltar();
+      }
+    };
+  }
+  
+  btnVoltar.click(function() {
+    if (history.pushState) {
+      history.back();
+    } else {
+      acaoVoltar();
+    }
+  });
   
   document.addEventListener("deviceready", function() {
-    document.addEventListener("menubutton", acaoVoltar, false);
-    document.addEventListener("volumedownbutton", acaoVoltar, false);
-    document.addEventListener("volumeupbutton", acaoVoltar, false);
+    //alert('deviceready');
+    var acao = function() {
+      alert('phonegap acao');
+    }
+    document.addEventListener("menubutton", acao, false);
+    document.addEventListener("backbutton", acao, false);
+    document.addEventListener("volumedownbutton", acao, false);
+    document.addEventListener("volumeupbutton", acao, false);
   }, false);
+  */
 });
 
 function montaGrid(lista) {
