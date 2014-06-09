@@ -3,6 +3,12 @@ body {
 	padding-bottom: 20px;
 }
 
+.barra_titulo {
+  margin-left: -10px;
+  margin-right: -10px;
+  position: relative;
+}
+
 .brand {
 	padding: 0;
 	margin: 0;

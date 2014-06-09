@@ -99,7 +99,12 @@ function getAndroidVersion() {
   return match ? match[1] : false;
 };
 
+$(window).resize(function(){
+  $('.navbar-default .navbar-inner:first').width($('body').width());
+});
+
 $(function () {
+
   var txtPesquisar = $('#txtPesquisar');
   var txtHoraInicial = $('#txtHoraInicial');
   var txtHoraFinal = $('#txtHoraFinal');
@@ -149,11 +154,11 @@ $(function () {
   
   
   if (!selectLinhas.attr('multiple')) {
-	selectLinhas.attr('multiple', true);
+    selectLinhas.attr('multiple', true);
   }
   
   //var android = getAndroidVersion();
-  //if (android && android < '4') {
+  //if (android && android < '4') {}
   var selectLinhasMaxHeight = selectDia.height() * 2;
   if (selectLinhas.height() > selectLinhasMaxHeight) {
     selectLinhas.height(selectLinhasMaxHeight);
@@ -209,12 +214,18 @@ $(function () {
     }, 100);
   });
     
-  btnVoltar.click(function(){
+  var acaoVoltar = function(){
       $('body').scrollTop(0);
       $('#conteudo_form').toggle();
       $('#conteudo_tabela').toggle();
-  });
-  $.fx.interval = 10;
+  };
+  btnVoltar.click(acaoVoltar);
+  
+  document.addEventListener("deviceready", function() {
+    document.addEventListener("menubutton", acaoVoltar, false);
+    document.addEventListener("volumedownbutton", acaoVoltar, false);
+    document.addEventListener("volumeupbutton", acaoVoltar, false);
+  }, false);
 });
 
 function montaGrid(lista) {
