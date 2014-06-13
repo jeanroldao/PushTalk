@@ -1,12 +1,21 @@
 body {
 	padding-top: 50px;
+  color: #323A8B;
+}
+
+#btnPesquisar{
+  /*background-color: #323A8B;*/
 }
 
 .barra_titulo {
-  margin-left: -16px;
-  margin-right: -16px;
+  margin-left: -15px;
+  margin-right: -15px;
   margin-top: 12px;
   position: relative;
+}
+
+.barra_titulo .navbar-inner {
+  margin: -1px;
 }
 
 .barra_titulo .container {
@@ -23,9 +32,10 @@ body {
 }
 .barra_titulo .titulo { 
   position: absolute; 
-  top: 16px; 
+  top: 5px; 
   left: 0; 
   width: 100%; 
+  vertical-align: bottom;
   
   text-align: left;
   color: white; 
@@ -103,4 +113,53 @@ body {
 		color: #cc2129;
 		background-color: #ebebeb;
 	}
+}
+
+/* 
+.btn custom
+*/
+.btn-soul { 
+  color: #FFFFFF; 
+  background-color: #323A8B; 
+  border-color: #323A8B; 
+} 
+ 
+.btn-soul:hover, 
+.btn-soul:focus, 
+.btn-soul:active, 
+.btn-soul.active, 
+.open .dropdown-toggle.btn-soul { 
+  color: #FFFFFF; 
+  background-color: #323A8B; 
+  border-color: #323A8B; 
+} 
+ 
+.btn-soul:active, 
+.btn-soul.active, 
+.open .dropdown-toggle.btn-soul { 
+  background-image: none; 
+} 
+ 
+.btn-soul.disabled, 
+.btn-soul[disabled], 
+fieldset[disabled] .btn-soul, 
+.btn-soul.disabled:hover, 
+.btn-soul[disabled]:hover, 
+fieldset[disabled] .btn-soul:hover, 
+.btn-soul.disabled:focus, 
+.btn-soul[disabled]:focus, 
+fieldset[disabled] .btn-soul:focus, 
+.btn-soul.disabled:active, 
+.btn-soul[disabled]:active, 
+fieldset[disabled] .btn-soul:active, 
+.btn-soul.disabled.active, 
+.btn-soul[disabled].active, 
+fieldset[disabled] .btn-soul.active { 
+  background-color: #323A8B; 
+  border-color: #323A8B; 
+} 
+ 
+.btn-soul .badge { 
+  color: #323A8B; 
+  background-color: #FFFFFF; 
 }

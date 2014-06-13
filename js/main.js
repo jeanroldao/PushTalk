@@ -100,7 +100,7 @@ function getAndroidVersion() {
 };
 
 $(window).resize(function(){
-  if($('.navbar-default .navbar-inner').width() != $('body').width()) {
+  if ($('.navbar-default .navbar-inner').width() != $('body').width()) {
     $('.navbar-default .navbar-inner').width($('body').width());
   }
 });
@@ -115,7 +115,10 @@ $(function () {
   var selectLinhas = $('#selectLinhas');
   var btnPesquisar = $('#btnPesquisar');
   var btnVoltar = $('#btnVoltar');
-  var spanLinhasSelecionadas = $('#spanLinhasSelecionadas')[0];
+  
+  $('#topo_fixo').click(function(){
+    $('body').animate({scrollTop: 0}, 'slow');
+  });
   
   var horaini = new Date();
   horaini.setHours(horaini.getHours()-1);
@@ -126,6 +129,7 @@ $(function () {
   
   txtHoraFinal.val(formatTime(horafim));
   
+  /*
   $(getSentidos()).each(function(i, sentido){
 	
     var optionSentido = document.createElement('option');
@@ -134,6 +138,7 @@ $(function () {
     
     selectSentido.append(optionSentido);
   });
+  */
   
   var atualizaLinhas = function() {
     var linhasAtual = selectLinhas.val();
@@ -171,7 +176,7 @@ $(function () {
       $(table).remove();
       table = null;
       
-      btnPesquisar.val('Pesquisando...');
+      btnPesquisar.text('Pesquisando...');
       setTimeout(function(){
       
         var selecao = selectLinhas.val() || [];
@@ -208,10 +213,11 @@ $(function () {
           }));
         }
         
-        btnPesquisar.val('Pesquisar');
+        btnPesquisar.text('Pesquisar');
         btnPesquisar.blur();
         montaGrid(resultado);
         $('#conteudo_tabela').show();
+        $('body').animate({scrollTop:btnPesquisar.position().top - 75}, 'slow');
         
         //$('#conteudo_form,#conteudo_tabela').slideToggle();
         //$('#conteudo_form').css('visibility', 'hidden');
@@ -226,7 +232,6 @@ $(function () {
           }
         });
         */
-        $('body').animate({scrollTop:btnPesquisar.position().top - 75}, 'slow');
       }, 100);
     });
   });
