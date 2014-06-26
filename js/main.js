@@ -217,7 +217,7 @@ $(function () {
         btnPesquisar.blur();
         montaGrid(resultado);
         $('#conteudo_tabela').show();
-        $('body').animate({scrollTop:btnPesquisar.position().top - 75}, 'slow');
+        $('body,html').animate({scrollTop:btnPesquisar.position().top - 75}, 'slow');
         
         //$('#conteudo_form,#conteudo_tabela').slideToggle();
         //$('#conteudo_form').css('visibility', 'hidden');
